@@ -1,7 +1,7 @@
 import os, sys
 
 from PIL import Image
-im = Image.open("Triforce.png")
+im = Image.open("Unnamed.jpg")
 print(im.format, im.size, im.mode)
 
 josh_png = Image.open("Josh.png")

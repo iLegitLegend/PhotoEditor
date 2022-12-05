@@ -1,5 +1,5 @@
 from PIL import Image
 import os, sys
 
-image =
-picture = Image.open(image)
+image = Image.open("Unnamed.jpg")
+pic = Image.open(image)
