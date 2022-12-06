@@ -2,8 +2,8 @@ import PIL.Image
 from PIL import Image
 import os, sys
 
-chosen_image = str(input("Which image would you like to edit? : "))
-pic = Image.open(chosen_image)
+chosen_image = str(input("Which image would you like to edit?\n"))
+picture = Image.open(chosen_image)
 
 state = 0
 while state == 0:
@@ -20,12 +20,13 @@ while state == 0:
         image_type = str(input("What type would you like to convert to?\n"""))
         f, e = os.path.splitext(chosen_image)
         outfile = f + image_type
-        pic.show(outfile)
+        picture.show(outfile)
         _continue_ = str(input("Would you like to [1] Keep editing, or [2] Save the edited image?\n"))
         if _continue_ == "1":
             state = 0
         if _continue_ == "2":
-            pic.save(outfile)
+            name = input(str("What would you like to name the image file?\n"))
+            picture.save(fr"C:\Temp\{name}{image_type}")
             state = 1
 
     if chosen_edit == "2":
@@ -35,9 +36,19 @@ while state == 0:
                                    "Selection: "))
         if rotate_or_flip == "1":
             rotate = str(input("By what degree do you want to rotate the image?\n"))
-            image_rotate = PIL.Image.TRANSPOSE(rotate)
-            pic.show(image_rotate) https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Transpose.ROTATE_180
+            degree = picture.rotate(int(rotate), expand=True)
+            picture = degree
+            picture.show()
+            _continue_ = str(input("Would you like to [1] Keep editing, or [2] Save the edited image?\n"))
+            if _continue_ == "1":
+                state = 0
+            if _continue_ == "2":
+                picture = degree
+                picture.save(fr"C:\Temp\Untitled.png")
+                state = 1
+
     if state == 1:
+        print("Image file has been saved to C:\Temp")
         break
 
 
