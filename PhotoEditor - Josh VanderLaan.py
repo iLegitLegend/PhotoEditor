@@ -20,7 +20,7 @@ if start == "3":
 
 if start == "1":
     f, e = os.path.splitext(chosen_image)
-    image_type = str(input("What type would you like to convert to?\n"""))
+    image_type = str(input("\nWhat type would you like to convert to?\n"""))
     name = input(str("What would you like to name the image file?\n"))
     outfile = name + image_type
     picture.save(outfile)
@@ -38,12 +38,12 @@ if start == "2":
                                 "Your selection: "))
 
         if chosen_edit == "1":
-            rotate_flip_mirror = str(input("[1] Rotate\n"
+            rotate_flip_mirror = str(input("\n[1] Rotate\n"
                                             "[2] Flip (↕)\n"
                                             "[3] Mirror (⇆)\n"
                                             "Selection: "))
             if rotate_flip_mirror == "1":
-                rotate = str(input("By what degree do you want to rotate the image?\n"))
+                rotate = str(input("\nBy what degree do you want to rotate the image?\n"))
                 cut = str(input("Would you like the original image cut, or to remain fully displayed?\n"
                                 "[1] Cut\n"
                                 "[2] Full\n"
@@ -79,7 +79,7 @@ if start == "2":
                 break
 
         if chosen_edit == "2":
-            contrast_value = float(input("1 = Original Image\n"
+            contrast_value = float(input("\n1 = Original Image\n"
                                          "x<1 = Decreased Contrast\n"
                                          "x>1 = Increased Contrast\n"
                                          "Factor: "))
@@ -101,7 +101,7 @@ if start == "2":
         if chosen_edit == "3":
             print(picture.size)
             x, y = picture.size
-            left = int(input(f"Left (0 < x < {x}): "))
+            left = int(input(f"\nLeft (0 < x < {x}): "))
             top = int(input(f"Top (0 < x < {y}): "))
             right = int(input(f"Right (0 < x < {x} | x > {left}): "))
             bottom = int(input(f"Bottom (0 < x < {y} | x > {top}): "))
@@ -133,7 +133,7 @@ if start == "2":
                 picture = greyScale
                 picture.show()
             if colour_edit == "2":
-                colourDepth = int(input("Colour depth: "))
+                colourDepth = int(input("\nColour depth: "))
                 palette = picture.convert("P", palette = Image.Palette.ADAPTIVE, colors = colourDepth)
                 picture = palette
                 picture.show()
@@ -141,7 +141,7 @@ if start == "2":
                 picture = picture.convert("RGB")
                 Range = picture.getdata()
                 newPicture = []
-                colour1 = int(input("Choose the start of darkness value you want to change (Dark = 0, Light = 256): "))
+                colour1 = int(input("\nChoose the start of darkness value you want to change (Dark = 0, Light = 256): "))
                 colour2 = int(input("Choose the end: "))
                 r = int(input("R: "))
                 g = int(input("G: "))
@@ -154,7 +154,7 @@ if start == "2":
                 picture.putdata(newPicture)
                 picture.show()
             if colour_edit == "4":
-                factor = int(input("Factor: "))
+                factor = int(input("\nFactor: "))
                 colourEnhance = ImageEnhance.Color(picture).enhance(factor)
                 picture = colourEnhance
                 picture.show()
