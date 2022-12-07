@@ -1,5 +1,5 @@
 import PIL.Image
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageEnhance
 import os, sys
 
 chosen_image = str(input("Which image would you like to edit?\n"))
@@ -19,11 +19,12 @@ if start == "3":
     state = 2
 
 if start == "1":
-    image_type = str(input("What type would you like to convert to?\n"""))
     f, e = os.path.splitext(chosen_image)
-    outfile = f + image_type
+    image_type = str(input("What type would you like to convert to?\n"""))
     name = input(str("What would you like to name the image file?\n"))
-    picture.save(fr"C:\Users\Josh VanderLaan\PycharmProjects\pythonProject1\{name}{image_type}")
+    outfile = name + image_type
+    picture.save(outfile)
+    state = 1
 
 if start == "2":
     while state == 0:
@@ -31,14 +32,13 @@ if start == "2":
                                 "\n"
                                 "[1] Rotate, flip(↕), or mirror(⇆) image\n"
                                 "[2] Edit contrast\n"
-                                "[3] Merge images\n"
-                                "[4] Swap pixel colours\n"
+                                "[3] Crop image\n"
+                                "[4] Swap pixel colours / Change color palette\n"
                                 "\n"
                                 "Your selection: "))
 
         if chosen_edit == "1":
-            rotate_flip_mirror = str(input("What would you like to do to the image?\n"
-                                            "[1] Rotate\n"
+            rotate_flip_mirror = str(input("[1] Rotate\n"
                                             "[2] Flip (↕)\n"
                                             "[3] Mirror (⇆)\n"
                                             "Selection: "))
@@ -58,62 +58,113 @@ if start == "2":
                     picture = degree
                     picture.show()
                 degree = picture
-                _continue_ = str(input("Would you like to [1] Keep editing, [2] Save the edited image, "
-                                       "or [3] Quit editing?\n"))
-                if _continue_ == "1":
-                    state = 0
-                if _continue_ == "2":
-                    picture = degree
-                    name = input(str("What would you like to name the image file?\n"))
-                    f, e = os.path.splitext(chosen_image)
-                    outfile = name + e
-                    picture.save(outfile)
-                    state = 1
-                if _continue_ == "3":
-                    break
             if rotate_flip_mirror == "2":
                 picture_flip = ImageOps.flip(picture)
                 picture = picture_flip
                 picture.show()
-                _continue_ = str(input("Would you like to [1] Keep editing, [2] Save the edited image, "
-                                       "or [3] Quit editing?\n"))
-                if _continue_ == "1":
-                    state = 0
-                if _continue_ == "2":
-                    name = input(str("What would you like to name the image file?\n"))
-                    f, e = os.path.splitext(chosen_image)
-                    outfile = name + e
-                    picture.save(outfile)
-                    state = 1
-                if _continue_ == "3":
-                    break
             if rotate_flip_mirror == "3":
                 picture_mirror = ImageOps.mirror(picture)
                 picture = picture_mirror
                 picture.show()
-                _continue_ = str(input("Would you like to [1] Keep editing, [2] Save the edited image, "
-                                       "or [3] Quit editing?\n"))
-                if _continue_ == "1":
-                    state = 0
-                if _continue_ == "2":
-                    name = input(str("What would you like to name the image file?\n"))
-                    f, e = os.path.splitext(chosen_image)
-                    outfile = name + e
-                    picture.save(outfile)
-                    state = 1
-                if _continue_ == "3":
-                    break
+            _continue_ = str(input("\n[1] Keep editing\n[2] Save the edited image\n[3] Quit editing\nSelection: "))
+            if _continue_ == "1":
+                state = 0
+            if _continue_ == "2":
+                name = input(str("What would you like to name the image file?\n"))
+                f, e = os.path.splitext(chosen_image)
+                outfile = name + e
+                picture.save(outfile)
+                state = 1
+            if _continue_ == "3":
+                break
 
         if chosen_edit == "2":
             contrast_value = float(input("1 = Original Image\n"
-                                         "x<1 = Decreased Contras\n"
+                                         "x<1 = Decreased Contrast\n"
                                          "x>1 = Increased Contrast\n"
                                          "Factor: "))
             contrast = picture.point(lambda i: i * contrast_value)
             picture = contrast
             picture.show()
-            _continue_ = str(input("Would you like to [1] Keep editing, [2] Save the edited image, "
-                                   "or [3] Quit editing?\n"))
+            _continue_ = str(input("\n[1] Keep editing\n[2] Save the edited image\n[3] Quit editing\nSelection: "))
+            if _continue_ == "1":
+                state = 0
+            if _continue_ == "2":
+                name = input(str("What would you like to name the image file?\n"))
+                f, e = os.path.splitext(chosen_image)
+                outfile = name + e
+                picture.save(outfile)
+                state = 1
+            if _continue_ == "3":
+                break
+
+        if chosen_edit == "3":
+            print(picture.size)
+            x, y = picture.size
+            left = int(input(f"Left (0 < x < {x}): "))
+            top = int(input(f"Top (0 < x < {y}): "))
+            right = int(input(f"Right (0 < x < {x} | x > {left}): "))
+            bottom = int(input(f"Bottom (0 < x < {y} | x > {top}): "))
+            (left_, top_, right_, bottom_) = (left, top, right, bottom)
+            picture_crop = picture.crop((left_, top_, right_, bottom_))
+            picture_crop.show()
+            picture = picture_crop
+            _continue_ = str(input("\n[1] Keep editing\n[2] Save the edited image\n[3] Quit editing\nSelection:"))
+            if _continue_ == "1":
+                state = 0
+            if _continue_ == "2":
+                name = input(str("What would you like to name the image file?\n"))
+                f, e = os.path.splitext(chosen_image)
+                outfile = name + e
+                picture.save(outfile)
+                state = 1
+            if _continue_ == "3":
+                break
+
+        if chosen_edit == "4":
+            colour_edit = input(str("[1] Greyscale\n"
+                                    "[2] Colour palette\n"
+                                    "[3] Change shades of white to colour\n"
+                                    "[4] Enhance colour\n"
+                                    "\nSelection:"))
+            if colour_edit == "1":
+                greyScale = picture.convert("L")
+                picture = greyScale
+                picture.show()
+            if colour_edit == "2":
+                colourDepth = int(input("Colour depth: "))
+                palette = picture.convert("P", palette = Image.Palette.ADAPTIVE, colors = colourDepth)
+                picture = palette
+                picture.show()
+            if colour_edit == "3":
+                picture = picture.convert("RGB")
+                Range = picture.getdata()
+                newPicture = []
+                r = int(input("R: "))
+                g = int(input("G: "))
+                b = int(input("B: "))
+                for i in Range:
+                    if i[0] in list(range(200, 256)):
+                        newPicture.append((r, g, b))
+                    else:
+                        newPicture.append(i)
+                picture.putdata(newPicture)
+                picture.show()
+            if colour_edit == "4":
+                factor = int(input("Factor: "))
+                colourEnhance = ImageEnhance.Color(picture).enhance(factor)
+                picture = colourEnhance
+                picture.show()
+            if colour_edit == "5":
+                pixel = picture.load()
+                x = int(input("X coordinate: "))
+                y = int(input("Y coordinate: "))
+                r = int(input("R: "))
+                g = int(input("G: "))
+                b = int(input("B: "))
+                pixel[x, y] = ((r, g, b))
+                picture.show(pixel)
+            _continue_ = str(input("\n[1] Keep editing\n[2] Save the edited image\n[3] Quit editing\nSelection:"))
             if _continue_ == "1":
                 state = 0
             if _continue_ == "2":
@@ -130,8 +181,3 @@ if start == "2":
             break
         if state == 2:
             break
-
-
-
-
-
