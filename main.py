@@ -124,8 +124,9 @@ if start == "2":
         if chosen_edit == "4":
             colour_edit = input(str("[1] Greyscale\n"
                                     "[2] Colour palette\n"
-                                    "[3] Change shades of white to colour\n"
+                                    "[3] Change specific shades to a different colour\n"
                                     "[4] Enhance colour\n"
+                                    "[5] Edit colour of individual pixel"
                                     "\nSelection:"))
             if colour_edit == "1":
                 greyScale = picture.convert("L")
@@ -140,11 +141,13 @@ if start == "2":
                 picture = picture.convert("RGB")
                 Range = picture.getdata()
                 newPicture = []
+                colour1 = int(input("Choose the start of darkness value you want to change (Dark = 0, Light = 256): "))
+                colour2 = int(input("Choose the end: "))
                 r = int(input("R: "))
                 g = int(input("G: "))
                 b = int(input("B: "))
                 for i in Range:
-                    if i[0] in list(range(200, 256)):
+                    if i[0] in list(range(colour1, colour2)):
                         newPicture.append((r, g, b))
                     else:
                         newPicture.append(i)
@@ -162,7 +165,7 @@ if start == "2":
                 r = int(input("R: "))
                 g = int(input("G: "))
                 b = int(input("B: "))
-                pixel[x, y] = ((r, g, b))
+                pixel[x, y] = (r, g, b)
                 picture.show(pixel)
             _continue_ = str(input("\n[1] Keep editing\n[2] Save the edited image\n[3] Quit editing\nSelection:"))
             if _continue_ == "1":
